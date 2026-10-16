@@ -24,9 +24,22 @@ Ask your agent to create or review an architecture diagram and provide the sourc
 
 The skill requires inspection of the rendered output. A successful generation or structural check alone is not visual QA.
 
+## Examples
+
+The [`examples/`](examples/) directory contains original, fictional HTML/SVG examples for different audiences:
+
+- `context-container.html` — system context and logical containers for solution architects.
+- `sequence.html` — ordered booking interaction for developers.
+- `deployment.html` — runtime placement for platform and solution architects.
+- `business-process.html` — roles, decisions, handoffs, and outcomes for business and delivery teams.
+- `order-flow.html` — numbered synchronous and asynchronous data flows.
+- `QA_REPORT.md` — visual review iterations, acceptance checks, and limits for the example gallery.
+
+Each new scenario has a companion `*-evidence.md` that states what the example assumes and what would need confirmation. [Research notes](docs/research-notes.md) explain why these view types were selected; they are common established forms, not a measured popularity ranking.
+
 ## Scope
 
-The initial version focuses on architecture, data flow, deployment boundaries, and diagram review. It guides an agent; it is not a diagram editor, layout engine, or guarantee that an agent's output is correct. Quality depends on source evidence, the agent, and visual review.
+The skill covers architecture, data flow, deployment, sequence, business-process views, and diagram review. It guides an agent; it is not a diagram editor, layout engine, or guarantee that an agent's output is correct. It can work with HTML/SVG, diagram-as-code tools, or visual editors. Quality depends on source evidence and review of the actual rendered output.
 
 ## Development
 

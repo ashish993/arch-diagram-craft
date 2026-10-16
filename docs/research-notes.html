@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Research behind the Architecture Diagram Craft examples and tool recommendations.">
+  <meta name="theme-color" content="#e9eef2">
+  <title>Research notes — Architecture Diagram Craft</title>
+  <style>
+    :root { color-scheme: light; --canvas:#e9eef2; --paper:#fbfcfd; --ink:#172630; --muted:#50616c; --line:#c5d0d8; --blue:#176b8b; --deep:#124b65; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--canvas); color:var(--ink); font:16px/1.6 "Avenir Next",Avenir,"Segoe UI",sans-serif; }
+    a { color:var(--deep); text-underline-offset:3px; }
+    a:focus-visible { outline:3px solid #9a5c12; outline-offset:3px; }
+    header,main,footer { width:min(900px,calc(100% - 48px)); margin-inline:auto; }
+    header { display:flex; justify-content:space-between; align-items:center; gap:20px; padding:20px 0; border-bottom:1px solid var(--line); }
+    header a { color:var(--ink); font-weight:700; text-decoration:none; }
+    header span { color:var(--muted); font-size:13px; }
+    main { padding:64px 0 80px; }
+    h1 { max-width:760px; margin:0 0 14px; font-size:clamp(38px,7vw,66px); line-height:1; letter-spacing:-.06em; }
+    h2 { margin:54px 0 12px; font-size:clamp(25px,4vw,34px); line-height:1.15; letter-spacing:-.04em; }
+    p { max-width:760px; color:var(--muted); }
+    .date { color:var(--blue); font:12px/1.4 ui-monospace,monospace; text-transform:uppercase; letter-spacing:.08em; }
+    .note { margin:26px 0; padding:16px 20px; background:var(--paper); border-left:3px solid var(--blue); }
+    .note p { margin:0; }
+    table { width:100%; border-collapse:collapse; background:var(--paper); }
+    th,td { padding:14px 16px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
+    th { color:var(--blue); font-size:12px; font-weight:650; text-transform:uppercase; letter-spacing:.06em; }
+    td { font-size:14px; }
+    ul { padding-left:22px; color:var(--muted); }
+    li { margin:12px 0; }
+    strong { color:var(--ink); }
+    .return { display:inline-block; margin-top:38px; padding:12px 16px; border:1px solid var(--line); background:var(--paper); text-decoration:none; }
+    footer { padding:18px 0 24px; border-top:1px solid var(--line); color:var(--muted); font-size:12px; }
+    @media(max-width:600px) {
+      header,main,footer { width:calc(100% - 28px); }
+      header { align-items:flex-start; flex-direction:column; gap:3px; }
+      main { padding-top:42px; }
+      table,tbody,tr,td { display:block; width:100%; }
+      thead { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+      tbody tr { padding:12px 14px; border-bottom:1px solid var(--line); }
+      td { padding:5px 0; border:0; font-size:14px; }
+      td::before { content:attr(data-label); display:block; margin-bottom:2px; color:var(--blue); font-size:10px; font-weight:650; letter-spacing:.06em; text-transform:uppercase; }
+      td:first-child { font-weight:700; }
+    }
+  </style>
+</head>
+<body>
+  <header><a href="index.html">Architecture Diagram Craft</a><span>Research notes · 16 October 2026</span></header>
+  <main>
+    <p class="date">Selection rationale</p>
+    <h1>Choose the diagram for the question.</h1>
+    <p>The example gallery covers recurring diagram forms used to explain system scope, runtime structure, interactions, deployment placement, and business work. These sources establish recognized notations and use cases; they do not provide a comparable frequency survey across solution architects, developers, and business users.</p>
+    <aside class="note"><p><strong>How to read this page:</strong> this is a practical cross-audience selection, not a statistical ranking of diagram popularity.</p></aside>
+
+    <h2>Views in the example gallery</h2>
+    <table>
+      <thead><tr><th>View</th><th>Question it helps answer</th><th>Source basis</th></tr></thead>
+      <tbody>
+        <tr><td data-label="View">System context and containers</td><td data-label="Question">Who uses the system, what is around it, and what major applications or data stores make it up?</td><td data-label="Source basis"><a href="https://c4model.com/diagrams">C4 model diagram types</a> include context and container views and advise choosing only levels that add value.</td></tr>
+        <tr><td data-label="View">Sequence</td><td data-label="Question">Which messages happen, in what order, and what happens on a branch?</td><td data-label="Source basis"><a href="https://www.omg.org/UML/what-is-uml.htm">OMG UML</a> includes sequence diagrams among its interaction diagrams.</td></tr>
+        <tr><td data-label="View">Deployment</td><td data-label="Question">Where does software run, and how are runtime components placed?</td><td data-label="Source basis">C4 includes deployment as a supporting view; <a href="https://docs.aws.amazon.com/reference-architecture-diagrams/">AWS reference architecture diagrams</a> illustrate recurring cloud architecture patterns.</td></tr>
+        <tr><td data-label="View">Business process</td><td data-label="Question">Who performs each activity, where are decisions, and what outcomes follow?</td><td data-label="Source basis"><a href="https://www.omg.org/bpmn/">OMG BPMN</a> is intended to be understandable to business users while representing process semantics for technical users.</td></tr>
+        <tr><td data-label="View">Data flow</td><td data-label="Question">Which records move between processes, stores, and external entities?</td><td data-label="Source basis">Data-flow diagrams complement the structural and behavioral views above. The repository’s order-processing example uses a fictional scenario to demonstrate labeled synchronous and asynchronous flows.</td></tr>
+      </tbody>
+    </table>
+    <p>The diagrams in this repository are original, fictional HTML/SVG teaching examples. The sources inform the choice of view; their text and diagrams have not been copied. Each example includes notes that identify its assumptions and evidence gaps.</p>
+
+    <h2>What diagram tools suggest</h2>
+    <ul>
+      <li><strong><a href="https://github.com/structurizr/structurizr">Structurizr</a>:</strong> define an architecture model once and produce multiple C4 views. The skill now recommends a shared element and relationship inventory when the same system appears in multiple views, so names and boundaries do not drift.</li>
+      <li><strong><a href="https://github.com/mermaid-js/mermaid">Mermaid</a> and <a href="https://github.com/plantuml/plantuml">PlantUML</a>:</strong> use text sources to generate diagrams. This makes changes easier to review and reproduce, but a generated layout still needs a semantic and visual check.</li>
+      <li><strong><a href="https://github.com/jgraph/drawio">draw.io / diagrams.net</a>:</strong> preserve an editable graph model alongside rendered outputs. The skill now asks authors using visual editors to retain the native file and confirm that it reopens or reimports.</li>
+    </ul>
+    <p>These tools are options, not required dependencies. The skill keeps its acceptance checks independent of the authoring tool: confirm evidence, abstraction, endpoints, branch meaning, accessibility, and the exact rendered artifact.</p>
+    <a class="return" href="index.html#examples">Return to the example gallery</a>
+  </main>
+  <footer>Research checked 16 October 2026. Selection rationale only; no popularity ranking is claimed.</footer>
+</body>
+</html>

@@ -42,20 +42,33 @@
     .visual-head { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 15px 20px; border-bottom: 1px solid var(--line); }
     .visual-head strong { font-size: 13px; font-weight: 650; }
     .visual-head span { color: var(--muted); font: 11px/1.4 var(--mono); }
-    .diagram-frame { display: block; width: 100%; height: 530px; border: 0; background: #f7f7f4; }
+    .diagram-frame { display: block; width: 100%; height: 780px; border: 0; background: #f7f7f4; }
     .visual-caption { display: flex; justify-content: space-between; gap: 18px; padding: 11px 20px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
     .visual-caption span:last-child { text-align: right; }
+    .mobile-example-link { display: none; }
     .method { display: grid; grid-template-columns: 1fr 1fr 1fr; margin: 52px 0 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
     .method article { padding: 25px 28px 28px 0; }
     .method article + article { border-left: 1px solid var(--line); padding-left: 28px; }
     .method h2 { margin: 0 0 9px; font-size: 18px; letter-spacing: -.025em; }
     .method p { margin: 0; max-width: 320px; color: var(--muted); font-size: 14px; }
     .method .step { display: block; margin-bottom: 15px; color: var(--blue); font: 11px/1.2 var(--mono); }
+    .gallery { margin-top: 66px; padding-top: 30px; border-top: 1px solid var(--line); }
+    .gallery h2 { margin: 0; font-size: clamp(28px, 4vw, 42px); letter-spacing: -.045em; }
+    .gallery-intro { max-width: 690px; color: var(--muted); margin: 10px 0 22px; }
+    .gallery-list { border-top: 1px solid var(--line); }
+    .gallery-list a { display: grid; grid-template-columns: 175px minmax(220px, .85fr) 1.15fr; gap: 20px; align-items: baseline; padding: 15px 0; border-bottom: 1px solid var(--line); color: var(--ink); text-decoration: none; }
+    .gallery-list a:hover strong { color: var(--blue); text-decoration: underline; text-underline-offset: 3px; }
+    .gallery-list span { color: var(--blue-deep); font-size: 12px; }
+    .gallery-list strong { font-size: 15px; }
+    .gallery-list small { color: var(--muted); font-size: 13px; }
+    .source-note { margin: 15px 0 0; color: var(--muted); font-size: 12px; }
     .lower { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(280px, .8fr); gap: clamp(40px, 8vw, 100px); padding-top: 67px; }
     .lower h2 { margin: 0 0 18px; font-size: clamp(27px, 3.4vw, 38px); line-height: 1.1; letter-spacing: -.045em; }
     .checks { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--line); }
-    .checks li { display: grid; grid-template-columns: 28px 1fr; gap: 12px; padding: 13px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+    .checks li { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 12px; padding: 13px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
     .checks b { color: var(--blue); font: 12px/1.8 var(--mono); }
+    .lower > div { min-width: 0; }
+    .checks li span { min-width: 0; overflow-wrap: anywhere; }
     .install { align-self: start; padding: 25px; background: var(--ink); color: #f5f8fa; }
     .install h2 { margin-bottom: 8px; font-size: 25px; }
     .install p { margin: 0 0 18px; color: #c3d0d8; font-size: 14px; }
@@ -69,23 +82,29 @@
       main { padding-top: 45px; }
       .intro { grid-template-columns: 1fr; gap: 20px; margin-bottom: 25px; }
       .intro p { max-width: 560px; font-size: 16px; }
-      .diagram-frame { height: 430px; }
       .method { grid-template-columns: 1fr; margin-top: 36px; }
       .method article, .method article + article { padding: 20px 0; border-left: 0; }
       .method article + article { border-top: 1px solid var(--line); }
       .method .step { margin-bottom: 8px; }
-      .lower { grid-template-columns: 1fr; padding-top: 48px; gap: 34px; }
+      .lower { grid-template-columns: minmax(0, 1fr); padding-top: 48px; gap: 34px; }
+      .gallery { margin-top: 48px; }
+      .gallery-list a { grid-template-columns: 1fr; gap: 3px; padding: 13px 0; }
+    }
+    @media (max-width: 900px) {
+      .diagram-frame { display: none; }
+      .mobile-example-link { display: block; padding: 22px 20px; color: var(--blue-deep); font-size: 14px; }
     }
     @media (max-width: 440px) {
       .topline-inner, main, footer { width: calc(100% - 24px); }
       .topline-inner { min-height: 52px; }
-      .top-links { gap: 12px; font-size: 12px; }
-      .wordmark { max-width: 155px; line-height: 1.2; }
+      .topline-inner { flex-wrap: wrap; justify-content: flex-start; gap: 7px 14px; padding-block: 7px; }
+      .wordmark { max-width: none; line-height: 1.2; }
+      .top-links { flex-wrap: wrap; gap: 5px 12px; font-size: 12px; }
       .intro h1 { font-size: 43px; }
       .visual-head { padding-inline: 12px; }
       .visual-head span { max-width: 125px; text-align: right; }
-      .diagram-frame { height: 360px; }
       .visual-caption { padding-inline: 12px; font-size: 11px; }
+      pre { white-space: pre-wrap; overflow-wrap: anywhere; }
       footer { flex-direction: column; gap: 5px; }
     }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
@@ -97,6 +116,7 @@
       <a class="wordmark" href="#top">Architecture Diagram Craft</a>
       <nav class="top-links" aria-label="Main navigation">
         <a href="#method">How it works</a>
+        <a href="#examples">Examples</a>
         <a href="#install">Install</a>
         <a href="https://github.com/ashish993/arch-diagram-craft">Source</a>
       </nav>
@@ -108,15 +128,17 @@
       <p>A practical agent skill for turning architecture notes and source code into editable system diagrams—with explicit flows, boundaries, and an evidence map.</p>
     </section>
 
+
     <section class="visual" aria-label="Worked architecture diagram">
       <div class="visual-head">
-        <strong>Order processing · worked example</strong>
-        <span>7 documented flows / 2 trust scopes</span>
+        <strong>Expense reimbursement · worked example</strong>
+        <span>3 role lanes / 2 decisions</span>
       </div>
-      <iframe class="diagram-frame" src="examples/order-flow.html" title="Order processing architecture diagram showing browser, API, order service, database, message queue, email worker, and external provider" loading="lazy"></iframe>
+      <iframe class="diagram-frame" src="examples/business-process.html" title="Expense reimbursement process across employee, finance and manager, and accounts payable roles" loading="lazy"></iframe>
+      <a class="mobile-example-link" href="examples/business-process.html">Open the full expense reimbursement diagram, with role lanes, decisions, and assumptions.</a>
       <div class="visual-caption">
-        <span>Solid lines show synchronous requests; dashed lines show asynchronous events.</span>
-        <span>Example by Ashish Sharma</span>
+        <span>Fictional process with a correction path, approval decision, and end states.</span>
+        <span>Process notes included</span>
       </div>
     </section>
 
@@ -138,6 +160,18 @@
       </article>
     </section>
 
+    <section class="gallery" id="examples" aria-labelledby="gallery-title">
+      <h2 id="gallery-title">Choose a view for the question</h2>
+      <p class="gallery-intro">Four fictional examples show different conversations across architecture, development, and business operations. Each includes notes that separate the scenario facts from assumptions.</p>
+      <div class="gallery-list">
+        <a href="examples/context-container.html"><span>Solution architecture</span><strong>Clinic appointments: context + containers</strong><small>System scope, actors, neighboring systems, and logical software pieces.</small></a>
+        <a href="examples/sequence.html"><span>Development</span><strong>Booking confirmation: sequence</strong><small>Ordered calls, response, asynchronous work, and a timeout branch.</small></a>
+        <a href="examples/deployment.html"><span>Platform architecture</span><strong>Appointment service: deployment</strong><small>Runtime placement and network paths, with assumptions called out.</small></a>
+        <a href="examples/business-process.html"><span>Business + delivery</span><strong>Expense reimbursement: process</strong><small>Role handoffs, policy decision, correction loop, and outcomes.</small></a>
+      </div>
+      <p class="source-note">These are teaching scenarios, not production designs. See the <a href="research-notes.html">research notes</a> for source links and selection rationale.</p>
+    </section>
+
     <section class="lower" aria-label="Review checks and installation">
       <div>
         <h2>A diagram should answer more than “what connects?”</h2>
@@ -152,7 +186,7 @@
         <h2>Use the skill</h2>
         <p>Install the repository with a compatible Agent Skills installer:</p>
         <pre><code>npx skills add ashish993/arch-diagram-craft</code></pre>
-        <a href="https://github.com/ashish993/arch-diagram-craft/tree/main/skills/arch-diagram-craft">Read the complete skill and reference →</a>
+        <a href="https://github.com/ashish993/arch-diagram-craft/tree/main/skills/arch-diagram-craft">Read the full skill and reference</a>
         <div class="scope">This is guidance for an AI agent, not a diagram editor or layout engine. Output quality still depends on the source material, the agent, and review.</div>
       </aside>
     </section>

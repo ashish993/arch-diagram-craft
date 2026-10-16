@@ -26,14 +26,17 @@
     .flow-number { fill: #a83c28; font: 700 12px system-ui, sans-serif; }
     .callout { fill: #e9ede8; stroke: none; rx: 6; }
     .callout-text { fill: #202622; font: 13px system-ui, sans-serif; }
-    @media (max-width: 640px) { body { padding: 20px 12px; } }
+    .scroll-hint { display: none; margin: 14px 0 0; color: var(--muted); font-size: 12px; }
+    figure:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+    @media (max-width: 900px) { body { padding: 20px 12px; } .scroll-hint { display: block; } figure { overflow-x: auto; } svg { min-width: 1100px; } }
   </style>
-</head>
+<script src="diagram-scroll.js" defer></script></head>
 <body>
 <main>
   <h1>Order processing</h1>
   <p>HTTPS ingress; transactional order response; asynchronous email delivery</p>
-  <figure>
+  <p class="scroll-hint">At narrow widths, scroll sideways or focus this diagram and use the arrow keys.</p>
+  <figure tabindex="0" role="region" aria-label="Order processing data-flow diagram; scroll horizontally on narrow screens">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 540" role="img" aria-labelledby="diagram-title diagram-desc">
       <title id="diagram-title">Order processing architecture and data flow</title>
       <desc id="diagram-desc">The browser sends an HTTPS order request through the public API to the Order Service. The service writes to PostgreSQL, publishes an OrderPlaced event to a queue, and returns an order ID and status after commit. An Email Worker consumes the event and calls an external email provider.</desc>
@@ -88,7 +91,7 @@
 
       <path class="flow async" d="M542 269 H482 V389 H470" marker-end="url(#arrow)"/>
       <circle cx="482" cy="335" r="11" fill="#a83c28"/><text x="482" y="339" text-anchor="middle" fill="white" font="700 11px system-ui">4</text>
-      <text class="flow-label" x="471" y="322" text-anchor="end">OrderPlaced event</text>
+      <text class="flow-label" x="471" y="307" text-anchor="end">OrderPlaced event</text>
 
       <path class="flow async" d="M316 389 H226" marker-end="url(#arrow)"/>
       <circle cx="270" cy="389" r="11" fill="#a83c28"/><text x="270" y="393" text-anchor="middle" fill="white" font="700 11px system-ui">5</text>
@@ -99,8 +102,7 @@
       <text class="flow-label" x="625" y="447" text-anchor="middle">Email via HTTPS</text>
 
       <path class="flow" d="M370 281 V300 H240 V316 H133 V281" marker-end="url(#arrow)"/>
-      <circle cx="220" cy="316" r="11" fill="#a83c28"/><text x="220" y="320" text-anchor="middle" fill="white" font="700 11px system-ui">7</text>
-      <text class="flow-label" x="270" y="347">Order ID/status after commit</text>
+      <text class="flow-label" x="270" y="347">HTTP response after commit</text>
 
       <rect class="callout" x="290" y="492" width="390" height="28"/>
       <text class="callout-text" x="485" y="511" text-anchor="middle">Solid = synchronous · Dashed = asynchronous</text>

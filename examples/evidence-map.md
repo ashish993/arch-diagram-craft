@@ -15,5 +15,5 @@
 | F4 | Order Service → queue, `OrderPlaced` event | `source-architecture.md`, fourth bullet | Fact |
 | F5 | Queue → Email Worker, consume event | `source-architecture.md`, fifth and seventh bullets | Fact |
 | F6 | Email Worker → provider, HTTPS | `source-architecture.md`, fifth bullet | Fact |
-| F7 | API → Browser, order ID/status after commit | `source-architecture.md`, sixth bullet | Fact |
+| F7 | API → Browser, order ID/status after commit | `source-architecture.md`, sixth bullet | Fact; synchronous response ordering relative to event publication is unspecified |
 
