@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import json
 import re
 import sys
 from html.parser import HTMLParser
@@ -56,6 +57,9 @@ def main() -> None:
     name = re.search(r"^name:\s*([a-z0-9-]+)\s*$", frontmatter, re.M)
     if not name or name.group(1) != "arch-diagram-craft":
         fail("skill name must match the directory and package name")
+    description = re.search(r"^description:\s*(.+)$", frontmatter, re.M)
+    if not description or not description.group(1).startswith("Use when "):
+        fail("skill description must start with a use-when trigger")
     if "[TODO:" in content:
         fail("SKILL.md contains an unfinished TODO placeholder")
     for rel in re.findall(r"\[[^\]]+\]\(([^)]+)\)", content):
@@ -87,6 +91,8 @@ def main() -> None:
         ROOT / "docs" / "research-notes.md",
         ROOT / "docs" / "research-notes.html",
         ROOT / "examples" / "QA_REPORT.md",
+        ROOT / "evals" / "evals.json",
+        ROOT / "evals" / "evaluation-report.md",
     )
     for required in required_files:
         if not required.is_file():
@@ -94,6 +100,12 @@ def main() -> None:
     for phrase in ("Render, inspect, revise, and repeat", "arrowhead visibly points", "No text is hidden", "Visual QA feedback loop"):
         if phrase not in content:
             fail(f"SKILL.md is missing required visual QA guidance: {phrase}")
+    for phrase in ("up to three concise", "Prepare a short plan", "Enterprise and customer-facing handoff", "Sharing hygiene"):
+        if phrase not in content:
+            fail(f"SKILL.md is missing required clarification/handoff guidance: {phrase}")
+    eval_data = json.loads((ROOT / "evals" / "evals.json").read_text(encoding="utf-8"))
+    if eval_data.get("skill_name") != "arch-diagram-craft" or len(eval_data.get("evals", [])) < 3:
+        fail("evals/evals.json must define at least three scenarios for arch-diagram-craft")
     html_files = sorted((ROOT / "examples").glob("*.html")) + [ROOT / "docs" / "index.html", ROOT / "docs" / "research-notes.html"]
     for html_file in html_files:
         parser = DocumentCheck()

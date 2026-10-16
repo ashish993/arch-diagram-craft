@@ -234,7 +234,7 @@ Use only the AWS services and facts I provide. Mark proposed services or unspeci
           <pre id="prompt-flow">Use the arch-diagram-craft skill to create a business flowchart for [process]. Audience: [business roles]. Start with [trigger], include [decisions, handoffs, exception/recovery paths], and end with possible outcomes. Use plain language and show who performs each step. Base the flow on: [paste process notes]. Mark uncertain steps for confirmation. Save editable HTML/SVG, render it, verify decision branches, arrow direction, readable text, and spacing, and correct and re-render any defects.</pre>
         </article>
       </div>
-      <p class="prompt-note">A plan is a concise summary before work, not an extra approval gate. You can ask for review or planning only when you want the agent to stop before creating the diagram. A prompt can guide a reviewed draft; it cannot establish that an architecture is correct or production-ready.</p>
+      <p class="prompt-note">A plan is a concise summary before work, not an extra approval gate. You can ask for review or planning only when you want the agent to stop before creating the diagram. For high-stakes work, use the skill’s scoped evidence, security, operations, and reviewer handoff checklist. A prompt or checklist cannot certify compliance or production readiness.</p>
     </section>
 
     <section class="lower" aria-label="Review checks and installation">

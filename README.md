@@ -130,6 +130,8 @@ Each new scenario has a companion `*-evidence.md` that states what the example a
 
 The skill covers system and cloud architecture, component, trust-boundary/data-flow, flowchart, deployment, sequence, and business-process views, plus diagram review. It guides an agent; it is not a diagram editor, layout engine, or guarantee that an agent's output is correct. It can work with HTML/SVG, diagram-as-code tools, or visual editors. Quality depends on source evidence and review of the actual rendered output.
 
+For high-stakes or customer-facing work, the skill also provides a scoped handoff checklist for evidence, assumptions, security/privacy, reliability/operations, reviewer roles, and sharing hygiene. Applicable checks depend on the diagram's purpose; the checklist does not certify compliance or production readiness. See [`evals/evaluation-report.md`](evals/evaluation-report.md) for the qualitative scenario review and its limits.
+
 ## Development
 
 Keep changes focused. For behavior changes, add a realistic fixture/request and record whether the resulting diagram meets the quality checks in `SKILL.md`. Review the rendered artifact, not just its source.

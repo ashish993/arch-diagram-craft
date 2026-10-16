@@ -1,6 +1,6 @@
 ---
 name: arch-diagram-craft
-description: Create and review source-grounded system and cloud architecture, component, trust-boundary, flowchart, sequence, deployment, data-flow, and business-process diagrams as editable HTML with inline SVG. Use when a diagram must preserve evidence, audience fit, boundaries, readable labels, clear spacing, and correctly directed connectors.
+description: Use when a user asks to create, reverse-engineer, update, or review a system, cloud, component, data-flow, sequence, deployment, process, or security-boundary diagram from requirements or code, especially when evidence traceability, clarification, readable labels, correct arrows, or rendered visual QA matter.
 ---
 
 # Architecture Diagram Craft
@@ -88,6 +88,20 @@ Treat visual QA as an iterative acceptance gate, not a closing polish pass:
 For HTML/SVG, place the diagram in one saved `.html` file with inline `<svg>`, a `viewBox`, and minimal embedded CSS. Use semantic groups and stable IDs where that helps later edits. Keep presentation notes outside the SVG drawing area. Do not use raster screenshots as the only source when editable vector output is feasible.
 
 For high-stakes or customer-facing architecture, include a separate evidence map and have a knowledgeable reviewer confirm technical semantics before publication.
+
+## Enterprise and customer-facing handoff
+
+Apply only the checks relevant to the diagram's purpose. Record out-of-scope items as such rather than implying they were assessed. Keep the diagram concise; place detail in the evidence/handoff note.
+
+- **Status and ownership:** Identify current state, proposed state, or conceptual view; intended audience and use; system/service owner; version or review date; and whether the diagram is draft, reviewed, or approved. Never imply approval from visual polish.
+- **Evidence and decisions:** Cite source documents, repositories, or decisions with versions/locations where practical. Separate confirmed facts, proposed choices, assumptions, and unresolved questions. Track decisions that materially affect the design.
+- **Security and privacy (when relevant):** Identify data classes and trust boundaries; show identity, authorization, encryption, secrets, logging, residency, and control ownership only when sourced. Record threat-model or privacy-review status and gaps. Do not infer compliance from a control icon or boundary.
+- **Reliability and operations (when relevant):** Include only supported availability/failure domains, recovery objectives, backup/restore, scaling/capacity, monitoring, alerting, operational ownership, and runbook/support paths. Mark targets and mechanisms that still need confirmation.
+- **Interfaces and data (when relevant):** Make flow direction and purpose explicit; include supported protocols, data contracts, error/retry behavior, and ownership. Mark unknown semantics rather than fabricating them.
+- **Review handoff:** Name the required reviewers by role (for example, architecture, service, security, privacy, data, and operations owners) according to scope. Record review status, date, and unresolved findings. A diagram is not ready for implementation approval until the accountable owner has reviewed its technical semantics.
+- **Sharing hygiene:** Do not copy credentials, tokens, secrets, or unnecessary personal/customer data into diagrams, evidence notes, screenshots, or public repositories. Prefer data-class or role labels. Follow the source material's classification and access rules, and confirm that shared references are accessible to their intended recipients.
+
+Report status narrowly, for example: “visual QA passed; evidence mapped; security and operations review pending.” This checklist supports a controlled handoff; it does not itself establish enterprise readiness, compliance, security, or production suitability.
 
 ## Example gallery
 

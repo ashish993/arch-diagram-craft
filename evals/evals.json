@@ -1,0 +1,30 @@
+{
+  "skill_name": "arch-diagram-craft",
+  "evaluation_mode": "manual qualitative scenario review; not an independent agent benchmark",
+  "evals": [
+    {
+      "id": 1,
+      "name": "vague-target-architecture",
+      "prompt": "Create an AWS architecture for my online store.",
+      "expected_output": "Review for missing current-state versus target-state, audience/detail, known service choices, and material requirements. Ask no more than three focused questions before drawing if an unresolved choice would materially change the view. After clarification, present a concise plan and proceed with the requested diagram; label optional unknowns as assumptions."
+    },
+    {
+      "id": 2,
+      "name": "scoped-conceptual-three-tier",
+      "prompt": "Create a conceptual AWS three-tier architecture for an online store. Show customers, public entry, web, application, and database tiers with labeled request/response flows. Choose sensible services and mark every unspecified service or placement as an assumption. Save editable HTML/SVG and an evidence note.",
+      "expected_output": "Do not delay with questions already answered by the prompt. Give a brief plan, proceed, distinguish required elements from assumed service choices, and apply visual QA to the rendered diagram."
+    },
+    {
+      "id": 3,
+      "name": "code-grounded-current-state",
+      "prompt": "Inspect this repository and diagram the current components and dependencies for the checkout service. Do not propose a redesign.",
+      "expected_output": "Inspect actual source, interfaces, call sites, and relevant tests; represent only supported current-state components and relationships; cite evidence and mark unknowns; do not invent a target design."
+    },
+    {
+      "id": 4,
+      "name": "customer-facing-sensitive-data-handoff",
+      "prompt": "Prepare a customer-facing data-flow diagram for a payment service. Source files include PII and payment processing details. Show trust boundaries, storage, and operational paths.",
+      "expected_output": "Use provided evidence without exposing secrets or unnecessary personal data. Identify data classes and trust boundaries only when supported. Include relevant security/privacy/reliability/operations review gaps, owner roles, draft status, evidence and assumptions, and avoid claiming compliance or approval."
+    }
+  ]
+}
