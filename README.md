@@ -2,14 +2,16 @@
 
 An agent skill for producing source-grounded software architecture and data-flow diagrams with readable labels, clear boundaries, and correctly directed connectors.
 
+**Created and maintained by Ashish Sharma.**
+
 ## Install
 
-This repository follows the Agent Skills folder convention. Install with a compatible skills installer, or copy/symlink `arch-diagram-craft/` into your agent's skills directory.
+This repository follows the Agent Skills folder convention. Install with a compatible skills installer, or copy/symlink `skills/arch-diagram-craft/` into your agent's skills directory.
 
 Example with the `skills` CLI:
 
 ```sh
-npx skills add YOUR_GITHUB_ACCOUNT/arch-diagram-craft
+npx skills add ashish993/arch-diagram-craft
 ```
 
 ## Use
@@ -31,4 +33,3 @@ Keep changes focused. For behavior changes, add a realistic fixture/request and 
 ## License
 
 MIT. See [LICENSE](LICENSE).
-
