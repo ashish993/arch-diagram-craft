@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Order processing — architecture and data flow</title>
+  <style>
+    :root { color-scheme: light; --paper: #f7f7f4; --ink: #202622; --muted: #5b665e; --rule: #aab2aa; --accent: #a83c28; --soft: #e9ede8; }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 36px; background: var(--paper); color: var(--ink); font: 16px/1.45 system-ui, sans-serif; }
+    main { max-width: 1120px; margin: auto; }
+    h1 { margin: 0 0 6px; font-size: clamp(26px, 4vw, 38px); letter-spacing: -.03em; }
+    p { margin: 0; color: var(--muted); }
+    figure { margin: 26px 0 0; }
+    svg { display: block; width: 100%; height: auto; overflow: visible; }
+    figcaption { margin-top: 8px; color: var(--muted); font-size: 12px; text-align: right; }
+    .boundary { fill: none; stroke: #aab2aa; stroke-width: 1.5; stroke-dasharray: 7 6; }
+    .boundary-label { fill: #5b665e; font: 600 13px system-ui, sans-serif; letter-spacing: .04em; }
+    .node { fill: #fff; stroke: #737e75; stroke-width: 1.5; rx: 8; }
+    .node-accent { fill: #fff6f2; stroke: #a83c28; stroke-width: 2; rx: 8; }
+    .node-title { fill: #202622; font: 650 16px system-ui, sans-serif; }
+    .node-sub { fill: #5b665e; font: 13px system-ui, sans-serif; }
+    .flow { fill: none; stroke: #56635a; stroke-width: 2; }
+    .async { stroke-dasharray: 6 5; }
+    .flow-label { fill: #202622; font: 13px system-ui, sans-serif; }
+    .flow-number { fill: #a83c28; font: 700 12px system-ui, sans-serif; }
+    .callout { fill: #e9ede8; stroke: none; rx: 6; }
+    .callout-text { fill: #202622; font: 13px system-ui, sans-serif; }
+    @media (max-width: 640px) { body { padding: 20px 12px; } }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Order processing</h1>
+  <p>HTTPS ingress; transactional order response; asynchronous email delivery</p>
+  <figure>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 540" role="img" aria-labelledby="diagram-title diagram-desc">
+      <title id="diagram-title">Order processing architecture and data flow</title>
+      <desc id="diagram-desc">The browser sends an HTTPS order request through the public API to the Order Service. The service writes to PostgreSQL, publishes an OrderPlaced event to a queue, and returns an order ID and status after commit. An Email Worker consumes the event and calls an external email provider.</desc>
+      <defs>
+        <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L9,4.5 L0,9 Z" fill="#56635a"/></marker>
+      </defs>
+      <path class="boundary" d="M250 50 H854 V480 H24 V330 H250 Z"/>
+      <text class="boundary-label" x="270" y="78">APPLICATION SERVICE TRUST SCOPE</text>
+      <rect class="boundary" x="878" y="194" width="198" height="150" rx="12"/>
+      <text class="boundary-label" x="892" y="218">EXTERNAL</text>
+
+      <text class="boundary-label" x="62" y="188">EXTERNAL CLIENT</text>
+      <rect class="node" x="62" y="205" width="142" height="76"/>
+      <text class="node-title" x="133" y="235" text-anchor="middle">Browser</text>
+      <text class="node-sub" x="133" y="258" text-anchor="middle">Client</text>
+
+      <rect class="node-accent" x="286" y="205" width="168" height="76"/>
+      <text class="node-title" x="370" y="235" text-anchor="middle">Public API</text>
+      <text class="node-sub" x="370" y="258" text-anchor="middle">Bearer token check</text>
+
+      <rect class="node" x="542" y="205" width="184" height="76"/>
+      <text class="node-title" x="634" y="235" text-anchor="middle">Order Service</text>
+      <text class="node-sub" x="634" y="258" text-anchor="middle">Order handling</text>
+
+      <rect class="node" x="570" y="354" width="154" height="70"/>
+      <text class="node-title" x="647" y="383" text-anchor="middle">PostgreSQL</text>
+      <text class="node-sub" x="647" y="405" text-anchor="middle">Orders · TLS</text>
+
+      <rect class="node" x="316" y="354" width="154" height="70"/>
+      <text class="node-title" x="393" y="383" text-anchor="middle">Message queue</text>
+      <text class="node-sub" x="393" y="405" text-anchor="middle">Technology unspecified</text>
+
+      <rect class="node" x="62" y="354" width="164" height="70"/>
+      <text class="node-title" x="144" y="383" text-anchor="middle">Email Worker</text>
+      <text class="node-sub" x="144" y="405" text-anchor="middle">Async consumer</text>
+
+      <rect class="node" x="900" y="234" width="154" height="70"/>
+      <text class="node-title" x="977" y="263" text-anchor="middle">Email provider</text>
+      <text class="node-sub" x="977" y="285" text-anchor="middle">External service</text>
+
+      <path class="flow" d="M204 222 H286" marker-end="url(#arrow)"/>
+      <circle cx="226" cy="222" r="11" fill="#a83c28"/><text x="226" y="226" text-anchor="middle" fill="white" font="700 11px system-ui">1</text>
+      <text class="flow-label" x="290" y="193">HTTPS order</text>
+
+      <path class="flow" d="M454 242 H542" marker-end="url(#arrow)"/>
+      <circle cx="498" cy="242" r="11" fill="#a83c28"/><text x="498" y="246" text-anchor="middle" fill="white" font="700 11px system-ui">2</text>
+      <text class="flow-label" x="498" y="193" text-anchor="middle">HTTPS request</text>
+
+      <path class="flow" d="M634 281 V354" marker-end="url(#arrow)"/>
+      <circle cx="634" cy="318" r="11" fill="#a83c28"/><text x="634" y="322" text-anchor="middle" fill="white" font="700 11px system-ui">3</text>
+      <text class="flow-label" x="650" y="326">Read/write</text>
+
+      <path class="flow async" d="M542 269 H482 V389 H470" marker-end="url(#arrow)"/>
+      <circle cx="482" cy="335" r="11" fill="#a83c28"/><text x="482" y="339" text-anchor="middle" fill="white" font="700 11px system-ui">4</text>
+      <text class="flow-label" x="471" y="322" text-anchor="end">OrderPlaced event</text>
+
+      <path class="flow async" d="M316 389 H226" marker-end="url(#arrow)"/>
+      <circle cx="270" cy="389" r="11" fill="#a83c28"/><text x="270" y="393" text-anchor="middle" fill="white" font="700 11px system-ui">5</text>
+      <text class="flow-label" x="270" y="371" text-anchor="middle">Consume</text>
+
+      <path class="flow async" d="M144 424 V460 H977 V304" marker-end="url(#arrow)"/>
+      <circle cx="180" cy="460" r="11" fill="#a83c28"/><text x="180" y="464" text-anchor="middle" fill="white" font="700 11px system-ui">6</text>
+      <text class="flow-label" x="625" y="447" text-anchor="middle">Email via HTTPS</text>
+
+      <path class="flow" d="M370 281 V300 H240 V316 H133 V281" marker-end="url(#arrow)"/>
+      <circle cx="220" cy="316" r="11" fill="#a83c28"/><text x="220" y="320" text-anchor="middle" fill="white" font="700 11px system-ui">7</text>
+      <text class="flow-label" x="270" y="347">Order ID/status after commit</text>
+
+      <rect class="callout" x="290" y="492" width="390" height="28"/>
+      <text class="callout-text" x="485" y="511" text-anchor="middle">Solid = synchronous · Dashed = asynchronous</text>
+    </svg>
+    <figcaption>Worked example by Ashish Sharma</figcaption>
+  </figure>
+</main>
+</body>
+</html>
