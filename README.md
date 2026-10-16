@@ -4,6 +4,8 @@ An agent skill for producing source-grounded software architecture and data-flow
 
 **Created and maintained by Ashish Sharma.**
 
+**Project page:** [Architecture Diagram Craft](https://ashish993.github.io/arch-diagram-craft/)
+
 ## Install
 
 This repository follows the Agent Skills folder convention. Install with a compatible skills installer, or copy/symlink `skills/arch-diagram-craft/` into your agent's skills directory.
