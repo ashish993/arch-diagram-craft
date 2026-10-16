@@ -50,11 +50,56 @@ For team-shared project installs, use `.claude/skills/arch-diagram-craft/` for C
 
 ## Use
 
-Ask your agent to create or review an architecture diagram and provide the source material. Example:
+Ask your agent to create or review an architecture diagram and provide the source material. If you use a tool that supports skill mentions, invoke `arch-diagram-craft`; otherwise ask the agent to use the installed skill by name. Replace the bracketed sections in these prompts with your requirements or source files.
 
-> Create a data-flow diagram from these architecture notes. Keep facts separate from assumptions, number the flows, save editable HTML/SVG, and include an evidence map.
+### AWS three-tier architecture
 
-The skill requires inspection of the rendered output. A successful generation or structural check alone is not visual QA.
+```text
+Use the arch-diagram-craft skill to create an AWS three-tier architecture diagram for [application/use case].
+
+Requirements:
+- Users: [user types and entry points]
+- Web tier: [hosting and static-content requirements]
+- Application tier: [runtime, APIs, scaling requirements]
+- Data tier: [database, storage, backup and recovery requirements]
+- Region and availability: [region, AZ count, uptime or recovery targets]
+- Security and network: [identity, public/private subnets, ingress/egress, trust boundaries]
+- Constraints: [budget, existing services, compliance, or services to avoid]
+
+Use the AWS services and architecture facts I provide. Mark any proposed service or unspecified design choice as an assumption; do not imply it is deployed or validated. Show the account/region boundary, public and private network zones, tier placement, and clearly directed, labeled traffic flows. Save editable HTML with inline SVG and a companion evidence note. Render it and check every label, arrow endpoint, boundary crossing, spacing, and overlap at desktop and mobile sizes. Fix defects and re-render until the visual checks pass. List open design questions.
+```
+
+### System context and containers
+
+```text
+Use the arch-diagram-craft skill to create a system context and container diagram for [system]. Audience: [audience]. Use these requirements, architecture notes, and source files: [paste or link them]. Show users, the system boundary, neighboring systems, major applications/services/data stores, and labeled relationships. Separate facts from assumptions and unknowns; include an evidence map. Save editable HTML/SVG, render it, and fix any unreadable text, incorrect arrows, clipped content, or overlaps before delivery.
+```
+
+### Component diagram from a repository
+
+```text
+Use the arch-diagram-craft skill to inspect this repository and create a component diagram for [service/module/path]. Trace responsibilities and dependencies from the actual source code, interfaces, call sites, and tests. Do not infer components from folder names alone. Show supported component relationships and label inferred or uncertain boundaries. Include an evidence map with file references. Save editable HTML/SVG, render and visually inspect it, then correct and re-render any text, arrow, spacing, or overlap defects.
+```
+
+### Trust-boundary data flow
+
+```text
+Use the arch-diagram-craft skill to diagram [data/process] across its trust boundaries. Show actors, systems, data stores, boundary zones, and each data flow with direction and a concise label. Mark sensitive data and crossings only when supported by the provided evidence; list unknown controls rather than assuming them. Sources: [paste or link requirements/code]. Save editable HTML/SVG and an evidence map. Render and inspect arrow endpoints, labels, boundary crossings, readability, and spacing; fix and re-render any defects.
+```
+
+### Sequence diagram
+
+```text
+Use the arch-diagram-craft skill to create a sequence diagram for [user or system interaction]. Use these steps and source materials: [describe steps or link code/API docs]. Show participants, calls, responses, asynchronous events, and relevant failure or timeout branches in order. Do not invent behavior that is not specified; mark gaps as open questions. Save editable HTML/SVG with an evidence note, render it, and fix any incorrect message direction, hidden text, or overlap before delivery.
+```
+
+### Business flowchart
+
+```text
+Use the arch-diagram-craft skill to create a business flowchart for [process]. Audience: [business roles]. Start with [trigger], include [decisions, handoffs, exception/recovery paths], and end with the possible outcomes. Use plain language and show who performs each step. Base the flow on: [paste process notes]. Mark uncertain steps for confirmation. Save editable HTML/SVG, render it, and verify decision branches, arrow direction, readable text, and spacing; correct and re-render any defects.
+```
+
+These prompts request a reviewed draft; they do not replace architecture-owner review or production validation. The skill requires inspection of the rendered output. A successful generation or structural check alone is not visual QA.
 
 ## Examples
 

@@ -61,6 +61,17 @@
     .gallery-list span { color: var(--blue-deep); font-size: 12px; }
     .gallery-list strong { font-size: 15px; }
     .gallery-list small { color: var(--muted); font-size: 13px; }
+    .prompts { margin-top: 66px; padding-top: 30px; border-top: 1px solid var(--line); }
+    .prompts h2 { margin: 0; font-size: clamp(28px, 4vw, 42px); letter-spacing: -.045em; }
+    .prompts-intro { max-width: 690px; color: var(--muted); margin: 10px 0 22px; }
+    .prompt-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .prompt-card { min-width: 0; border: 1px solid var(--line); background: #fff; }
+    .prompt-card header { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid var(--line); }
+    .prompt-card h3 { margin: 0; font-size: 16px; }
+    .prompt-card button { border: 1px solid var(--line); background: #fff; color: var(--ink); padding: 7px 10px; font: inherit; font-size: 12px; cursor: pointer; }
+    .prompt-card button:hover, .prompt-card button:focus-visible { border-color: var(--blue); color: var(--blue-deep); }
+    .prompt-card pre { margin: 0; padding: 16px; max-height: 320px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; color: #263944; font: 12px/1.65 ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .prompt-note { color: var(--muted); font-size: 13px; margin-top: 16px; }
     .source-note { margin: 15px 0 0; color: var(--muted); font-size: 12px; }
     .lower { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(280px, .8fr); gap: clamp(40px, 8vw, 100px); padding-top: 67px; }
     .lower h2 { margin: 0 0 18px; font-size: clamp(27px, 3.4vw, 38px); line-height: 1.1; letter-spacing: -.045em; }
@@ -89,6 +100,9 @@
       .lower { grid-template-columns: minmax(0, 1fr); padding-top: 48px; gap: 34px; }
       .gallery { margin-top: 48px; }
       .gallery-list a { grid-template-columns: 1fr; gap: 3px; padding: 13px 0; }
+      .prompts { margin-top: 48px; }
+      .prompt-list { grid-template-columns: 1fr; }
+      .prompt-card pre { max-height: 280px; }
     }
     @media (max-width: 900px) {
       .diagram-frame { display: none; }
@@ -117,6 +131,7 @@
       <nav class="top-links" aria-label="Main navigation">
         <a href="#method">How it works</a>
         <a href="#examples">Examples</a>
+        <a href="#prompts">Copy prompts</a>
         <a href="#install">Install</a>
         <a href="https://github.com/ashish993/arch-diagram-craft">Source</a>
       </nav>
@@ -176,6 +191,48 @@
       <p class="source-note">These are teaching scenarios, not production designs. See the <a href="research-notes.html">research notes</a> for source links and selection rationale.</p>
     </section>
 
+    <section class="prompts" id="prompts" aria-labelledby="prompts-title">
+      <h2 id="prompts-title">Start with a prompt</h2>
+      <p class="prompts-intro">Copy a prompt into your AI tool, replace the bracketed details, and attach the requirements or code it should use. Each prompt asks for an editable diagram and a rendered visual review.</p>
+      <div class="prompt-list">
+        <article class="prompt-card">
+          <header><h3>AWS three-tier architecture</h3><button type="button" data-copy="prompt-aws">Copy prompt</button></header>
+          <pre id="prompt-aws">Use the arch-diagram-craft skill to create an AWS three-tier architecture diagram for [application/use case].
+
+Users: [user types and entry points]
+Web tier: [hosting and static-content requirements]
+Application tier: [runtime, APIs, scaling requirements]
+Data tier: [database, storage, backup and recovery requirements]
+Region and availability: [region, AZ count, uptime or recovery targets]
+Security and network: [identity, public/private subnets, ingress/egress, trust boundaries]
+Constraints: [budget, existing services, compliance, or services to avoid]
+
+Use only the AWS services and facts I provide. Mark proposed services or unspecified choices as assumptions. Show account/region boundaries, network zones, tier placement, and labeled traffic arrows. Save editable HTML/SVG and an evidence note. Render and inspect every label, arrow endpoint, crossing, spacing, and overlap at desktop and mobile sizes. Fix and re-render defects; list open design questions.</pre>
+        </article>
+        <article class="prompt-card">
+          <header><h3>System context and containers</h3><button type="button" data-copy="prompt-context">Copy prompt</button></header>
+          <pre id="prompt-context">Use the arch-diagram-craft skill to create a system context and container diagram for [system]. Audience: [audience]. Use these requirements, architecture notes, and source files: [paste or link them]. Show users, the system boundary, neighboring systems, major applications/services/data stores, and labeled relationships. Separate facts from assumptions and unknowns; include an evidence map. Save editable HTML/SVG, render it, and fix unreadable text, incorrect arrows, clipped content, or overlaps before delivery.</pre>
+        </article>
+        <article class="prompt-card">
+          <header><h3>Component diagram from code</h3><button type="button" data-copy="prompt-component">Copy prompt</button></header>
+          <pre id="prompt-component">Use the arch-diagram-craft skill to inspect this repository and create a component diagram for [service/module/path]. Trace responsibilities and dependencies from source code, interfaces, call sites, and tests; do not infer components from folder names alone. Show supported relationships and label uncertain boundaries. Include an evidence map with file references. Save editable HTML/SVG, render it, and correct and re-render text, arrow, spacing, or overlap defects.</pre>
+        </article>
+        <article class="prompt-card">
+          <header><h3>Trust-boundary data flow</h3><button type="button" data-copy="prompt-trust">Copy prompt</button></header>
+          <pre id="prompt-trust">Use the arch-diagram-craft skill to diagram [data/process] across its trust boundaries. Show actors, systems, data stores, boundary zones, and each data flow with direction and a concise label. Mark sensitive data and crossings only when supported by the evidence; list unknown controls rather than assuming them. Sources: [paste or link requirements/code]. Save editable HTML/SVG and an evidence map. Render and inspect arrow endpoints, labels, boundary crossings, readability, and spacing; fix and re-render defects.</pre>
+        </article>
+        <article class="prompt-card">
+          <header><h3>Sequence diagram</h3><button type="button" data-copy="prompt-sequence">Copy prompt</button></header>
+          <pre id="prompt-sequence">Use the arch-diagram-craft skill to create a sequence diagram for [user or system interaction]. Use these steps and source materials: [describe steps or link code/API docs]. Show participants, calls, responses, asynchronous events, and relevant failure or timeout branches in order. Do not invent unspecified behavior; mark gaps as open questions. Save editable HTML/SVG with an evidence note, render it, and fix incorrect message direction, hidden text, or overlap before delivery.</pre>
+        </article>
+        <article class="prompt-card">
+          <header><h3>Business flowchart</h3><button type="button" data-copy="prompt-flow">Copy prompt</button></header>
+          <pre id="prompt-flow">Use the arch-diagram-craft skill to create a business flowchart for [process]. Audience: [business roles]. Start with [trigger], include [decisions, handoffs, exception/recovery paths], and end with possible outcomes. Use plain language and show who performs each step. Base the flow on: [paste process notes]. Mark uncertain steps for confirmation. Save editable HTML/SVG, render it, verify decision branches, arrow direction, readable text, and spacing, and correct and re-render any defects.</pre>
+        </article>
+      </div>
+      <p class="prompt-note">A prompt can guide a reviewed draft; it cannot establish that an architecture is correct or production-ready. Review assumptions with the system owner.</p>
+    </section>
+
     <section class="lower" aria-label="Review checks and installation">
       <div>
         <h2>A diagram should answer more than “what connects?”</h2>
@@ -200,5 +257,25 @@
     <span>Created and maintained by Ashish Sharma · MIT License</span>
     <a href="https://github.com/ashish993/arch-diagram-craft">View repository</a>
   </footer>
+  <script>
+    document.querySelectorAll('[data-copy]').forEach((button) => {
+      button.addEventListener('click', async () => {
+        const prompt = document.getElementById(button.dataset.copy).innerText;
+        const original = button.textContent;
+        try {
+          await navigator.clipboard.writeText(prompt);
+          button.textContent = 'Copied';
+        } catch {
+          const range = document.createRange();
+          range.selectNodeContents(document.getElementById(button.dataset.copy));
+          const selection = window.getSelection();
+          selection.removeAllRanges();
+          selection.addRange(range);
+          button.textContent = 'Select and copy';
+        }
+        window.setTimeout(() => { button.textContent = original; }, 1800);
+      });
+    });
+  </script>
 </body>
 </html>
