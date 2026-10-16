@@ -159,19 +159,19 @@
 
     <section class="method" id="method" aria-label="The diagram workflow">
       <article>
-        <span class="step">01 / Read</span>
-        <h2>Start from what’s known</h2>
-        <p>Separate source-backed facts from inferences and open questions. Don’t fill gaps with plausible-sounding technology or controls.</p>
+        <span class="step">01 / Review</span>
+        <h2>Clarify what changes the diagram</h2>
+        <p>Review your request and sources first. If a missing choice could change scope, audience, or meaning, ask up to three focused questions.</p>
       </article>
       <article>
-        <span class="step">02 / Draw</span>
-        <h2>Make relationships explicit</h2>
-        <p>Choose the right view, group by meaningful boundaries, and give important connectors a source, destination, direction, and label.</p>
+        <span class="step">02 / Plan</span>
+        <h2>Agree the useful view</h2>
+        <p>Summarize the view, evidence, scope, output, and assumptions. Optional unknowns stay labeled; they do not block a useful draft.</p>
       </article>
       <article>
-        <span class="step">03 / Inspect</span>
-        <h2>Check the rendered result</h2>
-        <p>Review legibility, overlaps, arrowheads, boundary crossings, and numbered flows in the diagram at its intended size.</p>
+        <span class="step">03 / Build + inspect</span>
+        <h2>Make and review the diagram</h2>
+        <p>When you ask for a diagram, the agent proceeds after the short plan, then checks legibility, arrowheads, boundaries, and overlaps.</p>
       </article>
     </section>
 
@@ -193,8 +193,12 @@
 
     <section class="prompts" id="prompts" aria-labelledby="prompts-title">
       <h2 id="prompts-title">Start with a prompt</h2>
-      <p class="prompts-intro">Copy a prompt into your AI tool, replace the bracketed details, and attach the requirements or code it should use. Each prompt asks for an editable diagram and a rendered visual review.</p>
+      <p class="prompts-intro">Copy a prompt into your AI tool, replace the bracketed details, and attach the requirements or code it should use. The clarification-first prompt is for broad requests; the others are ready-made diagram tasks.</p>
       <div class="prompt-list">
+        <article class="prompt-card">
+          <header><h3>Start with a vague request</h3><button type="button" data-copy="prompt-clarify">Copy prompt</button></header>
+          <pre id="prompt-clarify">Use the arch-diagram-craft skill to help me create a diagram for [system or process]. First review what I have provided. If any missing detail could change the diagram's purpose, scope, audience, or meaning, ask me up to three focused questions before drawing. After I answer, summarize the selected diagram view, evidence, scope, deliverables, and remaining assumptions in a short plan, then create it. If a detail is not critical, mark it as an assumption and keep going. Render and visually inspect the result, fix and re-render defects, and include an evidence note.</pre>
+        </article>
         <article class="prompt-card">
           <header><h3>AWS three-tier architecture</h3><button type="button" data-copy="prompt-aws">Copy prompt</button></header>
           <pre id="prompt-aws">Use the arch-diagram-craft skill to create an AWS three-tier architecture diagram for [application/use case].
@@ -230,7 +234,7 @@ Use only the AWS services and facts I provide. Mark proposed services or unspeci
           <pre id="prompt-flow">Use the arch-diagram-craft skill to create a business flowchart for [process]. Audience: [business roles]. Start with [trigger], include [decisions, handoffs, exception/recovery paths], and end with possible outcomes. Use plain language and show who performs each step. Base the flow on: [paste process notes]. Mark uncertain steps for confirmation. Save editable HTML/SVG, render it, verify decision branches, arrow direction, readable text, and spacing, and correct and re-render any defects.</pre>
         </article>
       </div>
-      <p class="prompt-note">A prompt can guide a reviewed draft; it cannot establish that an architecture is correct or production-ready. Review assumptions with the system owner.</p>
+      <p class="prompt-note">A plan is a concise summary before work, not an extra approval gate. You can ask for review or planning only when you want the agent to stop before creating the diagram. A prompt can guide a reviewed draft; it cannot establish that an architecture is correct or production-ready.</p>
     </section>
 
     <section class="lower" aria-label="Review checks and installation">

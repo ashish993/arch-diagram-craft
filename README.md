@@ -52,6 +52,14 @@ For team-shared project installs, use `.claude/skills/arch-diagram-craft/` for C
 
 Ask your agent to create or review an architecture diagram and provide the source material. If you use a tool that supports skill mentions, invoke `arch-diagram-craft`; otherwise ask the agent to use the installed skill by name. Replace the bracketed sections in these prompts with your requirements or source files.
 
+For broad requests, the skill reviews what is known, asks up to three focused questions if a missing decision would change the diagram, then gives a short plan before implementation. It carries noncritical gaps forward as labeled assumptions instead of turning the first reply into a long questionnaire. A requested plan is not an extra approval step: when you ask it to create the diagram, it proceeds after presenting the plan.
+
+### Start with a vague request
+
+```text
+Use the arch-diagram-craft skill to help me create a diagram for [system or process]. First review what I have provided. If any missing detail could change the diagram's purpose, scope, audience, or meaning, ask me up to three focused questions before drawing. After I answer, summarize the selected diagram view, evidence, scope, deliverables, and remaining assumptions in a short plan, then create it. If a detail is not critical, mark it as an assumption and keep going. Render and visually inspect the result, fix and re-render defects, and include an evidence note.
+```
+
 ### AWS three-tier architecture
 
 ```text
