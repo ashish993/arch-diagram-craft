@@ -106,7 +106,11 @@ def main() -> None:
     eval_data = json.loads((ROOT / "evals" / "evals.json").read_text(encoding="utf-8"))
     if eval_data.get("skill_name") != "arch-diagram-craft" or len(eval_data.get("evals", [])) < 3:
         fail("evals/evals.json must define at least three scenarios for arch-diagram-craft")
-    html_files = sorted((ROOT / "examples").glob("*.html")) + [ROOT / "docs" / "index.html", ROOT / "docs" / "research-notes.html"]
+    html_files = (
+        sorted((ROOT / "examples").glob("*.html"))
+        + [ROOT / "docs" / "index.html", ROOT / "docs" / "research-notes.html"]
+        + sorted((ROOT / "evals" / "results").rglob("*.html"))
+    )
     for html_file in html_files:
         parser = DocumentCheck()
         parser.feed(html_file.read_text(encoding="utf-8"))

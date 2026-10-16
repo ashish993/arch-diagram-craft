@@ -1,6 +1,6 @@
 {
   "skill_name": "arch-diagram-craft",
-  "evaluation_mode": "manual qualitative scenario review; not an independent agent benchmark",
+  "evaluation_mode": "small-sample fresh-context comparison of the prior and current skill; qualitative, not a statistical benchmark",
   "evals": [
     {
       "id": 1,
@@ -17,14 +17,16 @@
     {
       "id": 3,
       "name": "code-grounded-current-state",
-      "prompt": "Inspect this repository and diagram the current components and dependencies for the checkout service. Do not propose a redesign.",
-      "expected_output": "Inspect actual source, interfaces, call sites, and relevant tests; represent only supported current-state components and relationships; cite evidence and mark unknowns; do not invent a target design."
+      "prompt": "Inspect the supplied checkout service source and tests. Create a current-state component and interaction diagram. Do not propose a redesign.",
+      "files": ["fixtures/checkout-service/checkout.py", "fixtures/checkout-service/test_checkout.py"],
+      "expected_output": "Inspect actual source and tests; represent the order as inventory reservation, payment authorization, order persistence, and OrderPlaced publication. Show the rejection/compensation behavior supported by the tests. Cite file/line evidence and mark unknown protocols/runtime/deployment as unknown; do not invent a target design."
     },
     {
       "id": 4,
       "name": "customer-facing-sensitive-data-handoff",
-      "prompt": "Prepare a customer-facing data-flow diagram for a payment service. Source files include PII and payment processing details. Show trust boundaries, storage, and operational paths.",
-      "expected_output": "Use provided evidence without exposing secrets or unnecessary personal data. Identify data classes and trust boundaries only when supported. Include relevant security/privacy/reliability/operations review gaps, owner roles, draft status, evidence and assumptions, and avoid claiming compliance or approval."
+      "prompt": "Prepare a customer-facing data-flow diagram for the fictional payment service described in the supplied source brief. Show trust boundaries, storage, and operational paths. Keep unknown controls visible as gaps.",
+      "files": ["fixtures/payment-flow/source-brief.md"],
+      "expected_output": "Use the supplied fictional evidence and cite it. Label customer ID as personal data and payment token/amount as payment-related data without inventing values. Show only the two evidenced HTTPS connections; do not imply other controls. Include relevant security/privacy/reliability/operations review gaps, owner roles, draft status, assumptions, and avoid claiming compliance or approval."
     }
   ]
 }

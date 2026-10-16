@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Online Store | Proposed Conceptual AWS Architecture</title>
+<style>
+:root{color-scheme:light;--ink:#172b4d;--muted:#52647a;--line:#8ca0b5;--blue:#eaf3ff;--blue-stroke:#4b7db4;--amber:#fff4dd;--amber-stroke:#c28a25;--green:#e8f5ee;--green-stroke:#4d936b;--bg:#f5f8fc}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font:16px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink)}main{max-width:1240px;margin:0 auto;padding:26px 24px 40px}h1{font-size:clamp(1.5rem,3vw,2.1rem);margin:0 0 4px}p{margin:0;color:var(--muted)}.sub{margin-bottom:22px}.scroll{overflow:auto;border:1px solid #d5dfeb;border-radius:14px;background:#fff;box-shadow:0 4px 18px #19385812}.scroll:focus{outline:3px solid #6aa2df;outline-offset:3px}svg{display:block;width:100%;min-width:900px;height:auto}svg text{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;fill:var(--ink)}.title{font-size:22px;font-weight:700}.zone{fill:#f8fbff;stroke:#9bb4ce;stroke-width:2;stroke-dasharray:8 6}.zone-title{font-size:18px;font-weight:700}.node{stroke-width:2;rx:12}.node-title{font-size:16px;font-weight:700}.node-copy{font-size:13px;fill:var(--muted)}.fact{fill:var(--blue);stroke:var(--blue-stroke)}.assume{fill:var(--amber);stroke:var(--amber-stroke)}.external{fill:var(--green);stroke:var(--green-stroke)}.flow{fill:none;stroke:#355a7c;stroke-width:2.5;marker-end:url(#arrow)}.flow-label{font-size:13px;font-weight:600;fill:#314b65}.note{font-size:13px;fill:#52647a}.pill{font-size:12px;font-weight:700;fill:#795514}.legend{font-size:13px;fill:#40556c}section{margin-top:20px;padding:16px 18px;border:1px solid #d5dfeb;border-radius:12px;background:#fff}h2{font-size:1.05rem;margin:0 0 8px}ul{margin:8px 0 0;padding-left:20px;color:#40556c}
+</style>
+</head>
+<body><main>
+<h1>Online Store | Proposed Conceptual AWS Architecture</h1>
+<p class="sub">Solution architect discussion draft · scope: customer browsing, checkout, and external payment · service placement is illustrative</p>
+<div class="scroll" tabindex="0" role="region" aria-label="Scrollable architecture diagram">
+<svg viewBox="0 0 1200 650" role="img" aria-labelledby="diagramTitle diagramDesc" xmlns="http://www.w3.org/2000/svg">
+<title id="diagramTitle">Proposed conceptual AWS architecture for an online store</title>
+<desc id="diagramDesc">A customer browser loads a storefront from CloudFront and S3, then uses API Gateway and Lambda to read a catalog from DynamoDB and create an order. The checkout flow calls an external hosted payment provider and receives a payment result. AWS service selections are assumptions.</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#355a7c"/></marker></defs>
+<text x="40" y="42" class="title">Conceptual request and checkout path</text>
+<rect x="35" y="80" width="875" height="510" rx="18" class="zone"/><text x="58" y="112" class="zone-title">AWS cloud (proposed service choices)</text>
+<rect x="950" y="185" width="215" height="170" rx="18" fill="#f5fbf7" stroke="#8ab89a" stroke-width="2" stroke-dasharray="8 6"/><text x="972" y="216" class="zone-title">External provider</text>
+<rect x="70" y="245" width="165" height="92" class="node fact"/><text x="90" y="278" class="node-title">Customer</text><text x="90" y="302" class="node-copy">Browser</text><text x="90" y="322" class="node-copy">Browses and checks out</text>
+<rect x="305" y="155" width="185" height="92" class="node assume"/><text x="325" y="188" class="node-title">Amazon CloudFront</text><text x="325" y="212" class="node-copy">Static content delivery</text><text x="325" y="232" class="pill">ASSUMED</text>
+<rect x="555" y="155" width="185" height="92" class="node assume"/><text x="575" y="188" class="node-title">Amazon S3</text><text x="575" y="212" class="node-copy">Storefront assets</text><text x="575" y="232" class="pill">ASSUMED</text>
+<rect x="305" y="390" width="185" height="92" class="node assume"/><text x="325" y="423" class="node-title">Amazon API Gateway</text><text x="325" y="447" class="node-copy">Store API entry</text><text x="325" y="467" class="pill">ASSUMED</text>
+<rect x="555" y="390" width="185" height="92" class="node assume"/><text x="575" y="423" class="node-title">AWS Lambda</text><text x="575" y="447" class="node-copy">Catalog and checkout logic</text><text x="575" y="467" class="pill">ASSUMED</text>
+<rect x="760" y="390" width="125" height="92" class="node assume"/><text x="775" y="423" class="node-title">DynamoDB</text><text x="775" y="447" class="node-copy">Catalog / orders</text><text x="775" y="467" class="pill">ASSUMED</text>
+<rect x="975" y="245" width="165" height="82" class="node external"/><text x="995" y="277" class="node-title">Payment service</text><text x="995" y="301" class="node-copy">Hosted checkout</text><text x="995" y="319" class="pill">EXTERNAL</text>
+<path d="M235 265 C265 238 272 210 305 203" class="flow"/><text x="245" y="224" class="flow-label">1 · storefront request</text>
+<path d="M490 201 L555 201" class="flow"/><text x="492" y="184" class="flow-label">2 · asset origin</text>
+<path d="M185 337 C220 370 250 420 305 430" class="flow"/><text x="194" y="393" class="flow-label">3 · browse / checkout API</text>
+<path d="M490 436 L555 436" class="flow"/><text x="494" y="418" class="flow-label">4 · invoke</text>
+<path d="M740 436 L760 436" class="flow"/><text x="740" y="416" class="flow-label">read / write</text>
+<path d="M650 390 C690 330 800 285 975 285" class="flow"/><text x="747" y="320" class="flow-label">5 · create hosted payment session</text>
+<path d="M975 310 C880 360 780 370 740 406" class="flow"/><text x="817" y="370" class="flow-label">6 · payment result (details TBD)</text>
+<text x="58" y="545" class="note">Dashed boundary groups illustrative AWS components; it does not assert a VPC, account layout, or security control.</text>
+<rect x="58" y="558" width="16" height="16" rx="3" class="node fact"/><text x="82" y="571" class="legend">User-stated scope</text><rect x="220" y="558" width="16" height="16" rx="3" class="node assume"/><text x="244" y="571" class="legend">Assumed service choice</text><rect x="422" y="558" width="16" height="16" rx="3" class="node external"/><text x="446" y="571" class="legend">External system</text>
+</svg></div>
+<section><h2>Read this as a draft</h2><p>The request names browsing, checkout, and an external payment provider. All AWS product choices, persistence responsibilities, and flow mechanics are proposed assumptions for discussion, not evidence of an existing system or a production recommendation. Payment API details and order/catalog ownership remain open.</p></section>
+<section><h2>Confirm before implementation</h2><ul><li>Region, traffic profile, growth expectations, and performance goals.</li><li>Security, privacy, data classification, identity/session approach, and payment responsibilities.</li><li>Catalog, inventory, order, and customer data ownership and lifecycle.</li><li>Payment provider API, redirect/hosted checkout behavior, callbacks/webhooks, retries, and failure handling.</li><li>Availability, recovery, monitoring, and operational ownership.</li></ul></section>
+</main></body></html>

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkout service — current state</title>
+<style>
+  :root { color-scheme: light; font: 16px/1.45 system-ui, sans-serif; color: #172638; background: #f4f7fb; }
+  body { margin: 0; padding: 28px; }
+  main { max-width: 1120px; margin: auto; }
+  h1 { margin: 0 0 4px; font-size: 1.65rem; }
+  p { margin: 0 0 18px; color: #4d5d70; }
+  .canvas { overflow-x: auto; border: 1px solid #d6dfeb; border-radius: 12px; background: white; }
+  svg { display: block; width: 100%; min-width: 1100px; height: auto; }
+  .node { fill: #f7faff; stroke: #58718f; stroke-width: 1.5; rx: 10; }
+  .service { fill: #eaf2ff; stroke: #315e9b; }
+  .decision { fill: #fff5db; stroke: #9a7422; stroke-width: 1.5; }
+  .outcome { fill: #f2f8f2; stroke: #4d8056; }
+  .reject { fill: #fff1ef; stroke: #a75248; }
+  .title { font: 600 15px system-ui, sans-serif; fill: #172638; }
+  .sub { font: 13px system-ui, sans-serif; fill: #42566d; }
+  .small { font: 12px system-ui, sans-serif; fill: #42566d; }
+  .edge { fill: none; stroke: #536b85; stroke-width: 1.8; marker-end: url(#arrow); }
+  .comp { fill: none; stroke: #8ca0b7; stroke-width: 1.3; stroke-dasharray: 5 4; }
+  .edge-label { font: 12px system-ui, sans-serif; fill: #30465e; }
+  .boundary { fill: #fbfdff; stroke: #9cb0c7; stroke-width: 1.4; stroke-dasharray: 7 5; rx: 14; }
+  @media (max-width: 600px) { body { padding: 16px; } h1 { font-size: 1.35rem; } }
+</style>
+</head>
+<body>
+<main>
+<h1>Checkout service — current state</h1>
+<p>Component and interaction view derived from the supplied function and behavioral tests. Left to right follows execution order.</p>
+<div class="canvas" role="region" aria-label="Scrollable checkout diagram" tabindex="0">
+<svg viewBox="0 0 1450 620" role="img" aria-labelledby="svg-title svg-desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="svg-title">Checkout service current-state component and interaction diagram</title>
+  <desc id="svg-desc">submit_checkout reserves inventory, authorizes payment, saves an order, publishes OrderPlaced with only order_id, and returns accepted. Inventory failure rejects before payment. Payment decline releases inventory and rejects.</desc>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#536b85"/></marker></defs>
+
+  <rect id="svc-boundary" class="boundary" x="24" y="25" width="1402" height="570"/>
+  <text class="title" x="48" y="53">Checkout service</text>
+  <text class="small" x="48" y="73">submit_checkout(cart, customer_id, payment_token, inventory, payments, orders, events)</text>
+
+  <rect class="node" x="48" y="166" width="128" height="72"/><text class="title" x="67" y="194">Start</text><text class="sub" x="67" y="216">checkout inputs</text>
+  <rect class="node service" x="218" y="166" width="132" height="72"/><text class="title" x="230" y="194">1 · Inventory</text><text class="sub" x="230" y="216">reserve(items)</text>
+  <polygon class="decision" points="450,150 540,202 450,254 360,202"/><text class="title" text-anchor="middle" x="450" y="198">Reserved?</text><text class="small" text-anchor="middle" x="450" y="217">result</text>
+  <rect class="node service" x="570" y="166" width="150" height="72"/><text class="title" x="582" y="194">2 · Payments</text><text class="sub" x="582" y="216">authorize(token, total)</text>
+  <polygon class="decision" points="825,150 915,202 825,254 735,202"/><text class="title" text-anchor="middle" x="825" y="198">Approved?</text><text class="small" text-anchor="middle" x="825" y="217">authorization</text>
+  <rect class="node service" x="940" y="166" width="150" height="72"/><text class="title" x="958" y="194">3 · Orders</text><text class="sub" x="958" y="216">save(..., auth.id)</text>
+  <rect class="node service" x="1134" y="166" width="154" height="72"/><text class="title" x="1152" y="194">4 · Events</text><text class="sub" x="1152" y="216">publish OrderPlaced</text>
+  <rect class="node outcome" x="1300" y="166" width="112" height="72"/><text class="title" x="1309" y="194">5 · Accepted</text><text class="small" x="1309" y="216">order_id</text>
+  <path class="edge" d="M176 202H218"/>
+  <path class="edge" d="M350 202H360"/>
+  <path class="edge" d="M540 202H570"/><text class="edge-label" x="539" y="276">Yes</text>
+  <path class="edge" d="M720 202H735"/>
+  <path class="edge" d="M905 202H940"/><text class="edge-label" x="899" y="276">Yes</text>
+  <path class="edge" d="M1090 202H1134"/>
+  <path class="edge" d="M1288 202H1300"/>
+  <path class="edge" d="M450 254V347H190V406"/><text class="edge-label" x="405" y="278">No</text>
+  <rect class="node reject" x="88" y="406" width="204" height="78"/><text class="title" x="108" y="434">Rejected</text><text class="sub" x="108" y="456">inventory_unavailable</text><text class="small" x="108" y="475">payment is not called</text>
+  <path class="edge" d="M825 254V327H624V388"/><text class="edge-label" x="781" y="278">No · 4a</text>
+  <rect class="node service" x="548" y="388" width="152" height="68"/><text class="title" x="566" y="416">Inventory</text><text class="sub" x="566" y="438">release(items)</text>
+  <path class="edge" d="M624 456V500"/>
+  <rect class="node reject" x="522" y="500" width="204" height="68"/><text class="title" x="542" y="526">Rejected</text><text class="sub" x="542" y="548">payment_declined</text>
+  <text class="small" x="900" y="407">OrderPlaced payload: {order_id: order.id} only</text>
+  <text class="small" x="900" y="435">Success return: {status: accepted, order_id: order.id}</text>
+</svg>
+</div>
+</main>
+</body>
+</html>
