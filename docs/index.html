@@ -162,9 +162,13 @@
 
     <section class="gallery" id="examples" aria-labelledby="gallery-title">
       <h2 id="gallery-title">Choose a view for the question</h2>
-      <p class="gallery-intro">Four fictional examples show different conversations across architecture, development, and business operations. Each includes notes that separate the scenario facts from assumptions.</p>
+      <p class="gallery-intro">Original fictional examples cover system design, cloud architecture, security, development, and business operations. Each includes evidence notes that separate the scenario facts from assumptions.</p>
       <div class="gallery-list">
-        <a href="examples/context-container.html"><span>Solution architecture</span><strong>Clinic appointments: context + containers</strong><small>System scope, actors, neighboring systems, and logical software pieces.</small></a>
+        <a href="examples/context-container.html"><span>System design</span><strong>Clinic appointments: context + containers</strong><small>Scope, users, external dependencies, and major software building blocks.</small></a>
+        <a href="examples/cloud-architecture.html"><span>Cloud architecture</span><strong>Media processing workload</strong><small>Cloud boundary, public entry, data stores, queue, worker, and operations path.</small></a>
+        <a href="examples/component.html"><span>Component diagram</span><strong>Appointment API internals</strong><small>One application container decomposed into responsibilities and interfaces.</small></a>
+        <a href="examples/trust-boundary.html"><span>Security / trust boundaries</span><strong>Document upload data flow</strong><small>Crossings between user, application, and third-party scanning zones.</small></a>
+        <a href="examples/flowchart.html"><span>Flowchart / user flow</span><strong>Reschedule an appointment</strong><small>User actions, availability decision, recovery route, and outcomes.</small></a>
         <a href="examples/sequence.html"><span>Development</span><strong>Booking confirmation: sequence</strong><small>Ordered calls, response, asynchronous work, and a timeout branch.</small></a>
         <a href="examples/deployment.html"><span>Platform architecture</span><strong>Appointment service: deployment</strong><small>Runtime placement and network paths, with assumptions called out.</small></a>
         <a href="examples/business-process.html"><span>Business + delivery</span><strong>Expense reimbursement: process</strong><small>Role handoffs, policy decision, correction loop, and outcomes.</small></a>
@@ -184,8 +188,9 @@
       </div>
       <aside class="install" id="install">
         <h2>Use the skill</h2>
-        <p>Install the repository with a compatible Agent Skills installer:</p>
-        <pre><code>npx skills add ashish993/arch-diagram-craft</code></pre>
+        <p>Install with the Agent Skills CLI, or follow the tool-specific instructions in the repository README:</p>
+        <pre><code>npx skills add ashish993/arch-diagram-craft --skill arch-diagram-craft --agent claude-code --agent codex</code></pre>
+        <a href="https://github.com/ashish993/arch-diagram-craft#install">Claude Code, Codex, and other tools</a>
         <a href="https://github.com/ashish993/arch-diagram-craft/tree/main/skills/arch-diagram-craft">Read the full skill and reference</a>
         <div class="scope">This is guidance for an AI agent, not a diagram editor or layout engine. Output quality still depends on the source material, the agent, and review.</div>
       </aside>

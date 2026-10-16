@@ -70,6 +70,14 @@ def main() -> None:
         ROOT / "examples" / "evidence-map.md",
         ROOT / "examples" / "context-container.html",
         ROOT / "examples" / "context-container-evidence.md",
+        ROOT / "examples" / "cloud-architecture.html",
+        ROOT / "examples" / "cloud-architecture-evidence.md",
+        ROOT / "examples" / "component.html",
+        ROOT / "examples" / "component-evidence.md",
+        ROOT / "examples" / "trust-boundary.html",
+        ROOT / "examples" / "trust-boundary-evidence.md",
+        ROOT / "examples" / "flowchart.html",
+        ROOT / "examples" / "flowchart-evidence.md",
         ROOT / "examples" / "sequence.html",
         ROOT / "examples" / "sequence-evidence.md",
         ROOT / "examples" / "deployment.html",
@@ -106,6 +114,8 @@ def main() -> None:
             target = unquote(parsed.path)
             if html_file.parent == ROOT / "docs" and target.startswith("examples/"):
                 local_target = ROOT / target
+            elif html_file.parent == ROOT / "examples" and target == "../index.html":
+                local_target = ROOT / "docs" / "index.html"
             else:
                 local_target = (html_file.parent / target).resolve()
             candidates = [local_target]

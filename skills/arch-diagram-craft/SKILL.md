@@ -1,6 +1,6 @@
 ---
 name: arch-diagram-craft
-description: Create and review source-grounded architecture, sequence, deployment, data-flow, and business-process diagrams as editable HTML with inline SVG. Use when a diagram must preserve evidence, audience-fit, boundaries, readable labels, and correctly directed connectors.
+description: Create and review source-grounded system and cloud architecture, component, trust-boundary, flowchart, sequence, deployment, data-flow, and business-process diagrams as editable HTML with inline SVG. Use when a diagram must preserve evidence, audience fit, boundaries, readable labels, clear spacing, and correctly directed connectors.
 ---
 
 # Architecture Diagram Craft
@@ -16,10 +16,14 @@ Create diagrams that communicate a system accurately and can be inspected and ed
    | --- | --- | --- |
    | What is in scope, who uses it, and what does it depend on? | System context (C4) | System boundary, people, neighboring systems, named relationships |
    | What are the major runtime building blocks and how do they connect? | Container / high-level architecture (C4) | Applications, services, data stores, queues, external systems, protocols when known |
+   | How is one service internally divided, and what depends on what? | Component diagram (C4 or UML) | A single container, its cohesive components, responsibilities, interfaces, and supported dependencies; omit source-code class detail |
    | What happens during one interaction? | Sequence / dynamic diagram (UML or equivalent) | Participants, time direction, ordered calls/events, responses and relevant branches |
    | Where does software run and what network/runtime boundaries apply? | Deployment view (C4/UML or cloud-specific) | Environments, zones, nodes/runtime, placement and network relationships supported by evidence |
    | Who performs a business process, and where are its decisions or handoffs? | BPMN process diagram or a simpler swimlane flow | Roles/participants, activities, decisions, start/end states, handoffs, exceptions in scope |
+   | What steps does a person take, and which decisions change their route? | User flow / flowchart | One actor's steps, decision branches, recovery loops, and outcomes; do not mix technical message timing into a user flow |
    | Which records move, transform, or persist? | Data-flow diagram | Data stores, processes, external entities, labeled flows, trust crossings |
+   | Which data crosses ownership or trust zones, and what protects each crossing? | Security / trust-boundary data-flow diagram | Explicit trust zones, external entities, processing, stores, directional flows, and only evidenced protocol/authentication/encryption controls; a boundary line does not itself prove a control |
+   | How is the workload hosted in a cloud environment? | Cloud architecture / deployment diagram | Workload components, cloud/provider and account/project scope, network zones, managed services, entry/egress paths, and resilience/security controls only when sourced; label illustrative choices as assumptions |
 
    These are recurring, established view types, not a frequency ranking. C4 recommends selecting only the levels that add value; its context and container views are sufficient for many teams. BPMN is designed to communicate business-process semantics across business and technical stakeholders. Keep BPMN semantics distinct from informal flowcharts, and do not claim BPMN conformance unless the notation rules have been checked. Use separate diagrams when one view would obscure relationships. Ask for a missing critical scope decision; otherwise state a small, reversible assumption.
 3. **Plan the visual hierarchy.** Group by meaningful system or trust boundary. Keep labels concise, reserve color for a small number of focal items, and use a legend only when a visual encoding needs explanation. Prefer readable text and whitespace over fitting everything into one canvas. Split an overloaded view.
@@ -42,8 +46,8 @@ Create diagrams that communicate a system accurately and can be inspected and ed
 - Components and relationships match the available evidence; distinguish facts from inferred placement or flow.
 - Every arrowhead visibly points to and touches the intended destination; its tail visibly starts at the intended source. Check direction against the evidence rather than inferring it from label placement or visual proximity. Show bidirectional flows with two clear opposing arrowheads or two separately labeled connectors.
 - No text is hidden, clipped, cut off, or outside its intended box or diagram frame. All labels stay within the canvas, node, boundary, or callout assigned to them.
-- No text, node, boundary, legend, or connector overlaps another element in a way that obscures a label, endpoint, direction, or relationship. Route around nodes and labels; do not let a connector pass through an unrelated box.
-- Spacing is deliberate: text is inset from box edges, connectors have room for labels, nodes do not crowd boundaries, and adjacent elements remain distinguishable at native size.
+- No unintended overlap between text, nodes, boundaries, legends, arrows, and connectors; the only expected contact is a connector meeting its intended source or destination. Labels must not sit on box borders or arrow lines; arrowheads and paths must not run through labels or unrelated boxes. If the layout cannot provide clear separation, reroute, increase spacing, shorten wording without losing meaning, or split the diagram.
+- Spacing is deliberate: text is inset from box edges, connector labels have clear space on every side, nodes do not crowd boundaries, and adjacent elements remain distinct at native size. Never solve crowding by shrinking text until it is hard to read.
 - Labels remain readable at the intended native size and on narrow screens. If a wide diagram needs horizontal scrolling on mobile, make the scroll region keyboard-accessible and identify it for assistive technology.
 - Trust boundaries are named and connector crossings are explicit.
 - Numbered flows follow the stated process order and have no unexplained gaps or duplicates.
@@ -57,7 +61,7 @@ Create diagrams that communicate a system accurately and can be inspected and ed
 Treat visual QA as an iterative acceptance gate, not a closing polish pass:
 
 1. Render the current HTML in a real browser after creating the first draft.
-2. Inspect each diagram's full rendered extent at desktop/native size and a narrow viewport. Follow every connector from source to arrowhead, read every label, and inspect box and boundary clearances.
+2. Inspect each diagram's full rendered extent at desktop/native size and a narrow viewport. Read every label at its intended size; follow every connector from source to arrowhead; verify that no text, arrow, or box touches or overlaps another; inspect clear space around labels, nodes, and boundaries.
 3. Write down each concrete defect with its location and a specific correction. Do not make a batch of geometry edits from memory without re-rendering.
 4. Apply a focused correction, render again immediately, and check that the original defect is gone and no new overlap or wrong endpoint was introduced.
 5. Repeat steps 2–4 after every diagram change until all applicable checks pass. Then do one final review of every diagram and the containing page at desktop and mobile widths.
@@ -76,6 +80,10 @@ For high-stakes or customer-facing architecture, include a separate evidence map
 Use the repository's examples to calibrate audience, scope, evidence notes, and diagram type. They are fictional teaching scenarios, not reference architectures or claims about a real deployment. Each example has a source brief and evidence map. Preserve that distinction when adapting them; replace every fictional fact with supplied evidence.
 
 - `examples/context-container.html` — solution architect: a clinic appointment service, its users and neighboring systems, followed by an application-level container view.
+- `examples/cloud-architecture.html` — cloud architect: an illustrative event-driven media-processing workload with public ingress, private processing, object storage, queue, and managed services; all provider choices are assumptions.
+- `examples/component.html` — developer: a single appointment API container decomposed into request, availability, booking, persistence, and reminder components.
+- `examples/trust-boundary.html` — security reviewer: a fictional document-upload flow crossing user, application, and external scanning trust zones, with trust decisions and unspecified controls visible.
+- `examples/flowchart.html` — product/business analyst: a user flow for rescheduling an appointment, including a decision, recovery route, and terminal outcomes.
 - `examples/sequence.html` — developer: a booking confirmation interaction, with a timeout branch and asynchronous notification.
 - `examples/deployment.html` — platform/solution architect: an environment placement view across a public edge, private application zone, and managed data services. Placement is illustrative and must not be treated as a security recommendation.
 - `examples/business-process.html` — business and delivery teams: an expense reimbursement process with role lanes, policy decision, rejection path, and completion states.
